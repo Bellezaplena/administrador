@@ -71,7 +71,7 @@ class Paciente(models.Model):
         null=True,
     )
     numero_documento = models.CharField(max_length=10, null=True)
-    celular = models.CharField(max_length=10)
+    celular = models.CharField(max_length=20)
     direccion = models.CharField(max_length=100, blank=True, null=True)
     fecha_nacimiento = models.DateField(null=True)
     #-------------------------------------------
