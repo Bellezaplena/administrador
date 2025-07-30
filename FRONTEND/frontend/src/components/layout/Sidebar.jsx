@@ -14,14 +14,8 @@ export default function Sidebar({ activeView, setActiveView }) {
     <div className="w-64 bg-gradient-to-b from-emerald-50 to-teal-50 border-r border-emerald-100 h-screen flex flex-col">
       {/* Logo */}
       <div className="p-6 border-b border-emerald-100">
-        <div className="flex items-center space-x-3">
-          <div className="bg-emerald-500 p-2 rounded-lg">
-            <Spa className="h-6 w-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-800">Belleza Plena</h1>
-            <p className="text-sm text-gray-600">Administrador de Información</p>
-          </div>
+        <div className="flex space-x-3">
+          <img src="src\assets\icon.png"></img>
         </div>
       </div>
 

@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'belleza_plena',
         'USER': 'root',
-        'PASSWORD': 'spabellezaplena',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
     }

@@ -37,7 +37,7 @@ export default function Header({ title }) {
           {/* User Profile */}
           <div className="flex items-center space-x-3">
             <div className="text-right">
-              <p className="text-sm font-medium text-gray-800">Lesly Gomez</p>
+              <p className="text-sm font-medium text-gray-800">Belleza Plena Spa</p>
               <p className="text-xs text-gray-600">Sistema Principal</p>
             </div>
             <div className="bg-emerald-500 p-2 rounded-full">
