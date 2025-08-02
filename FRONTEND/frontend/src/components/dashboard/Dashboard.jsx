@@ -43,10 +43,12 @@ export default function Dashboard() {
 
       const thisMonth = new Date();
       const monthlyAppointments = appointments.filter(apt => {
-        const aptDate = new parseISO(apt.fecha_hora);
-        return aptDate.getMonth() === thisMonth.getMonth() &&
+        const aptDate = parseISO(apt.fecha_hora);
+        return (
+          aptDate.getMonth() === thisMonth.getMonth() &&
           aptDate.getFullYear() === thisMonth.getFullYear() &&
-          apt.estado === 'REAL';
+          apt.estado === 'REAL'
+        );
       });
 
       const monthlyRevenue = monthlyAppointments.reduce((sum, apt) => {
@@ -58,9 +60,17 @@ export default function Dashboard() {
 
       const upcoming = appointments
         .filter(apt => {
-          const aptDate = new Date(apt.fecha_hora);
-          const today = new Date();
-          return aptDate >= today && apt.estado === 'PEND';
+          const aptDate = parseISO(apt.fecha_hora);
+          const now = new Date();
+          return (
+            (isToday(aptDate) || aptDate > now) &&
+            apt.estado === 'PEND'
+          );
+        })
+        .sort((a, b) => {
+          const dateA = new Date(`${a.fecha_hora}T${a.hora}`);
+          const dateB = new Date(`${b.fecha_hora}T${b.hora}`);
+          return dateA - dateB;
         })
         .slice(0, 3);
 
@@ -86,7 +96,6 @@ export default function Dashboard() {
       setReports(data);
     } catch (err) {
       console.error('Error al cargar reportes:', err);
-      console.error("Detalles del error:", err.response?.data || err.message);
     }
   };
 
@@ -123,7 +132,6 @@ export default function Dashboard() {
               <Calendar className="h-5 w-5" />
               <span>Nueva Cita</span>
             </button>
-
             <button
               className="w-full bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 flex items-center space-x-2"
               onClick={() => setShowPatientForm(true)}
@@ -131,7 +139,6 @@ export default function Dashboard() {
               <Users className="h-5 w-5" />
               <span>Nuevo Paciente</span>
             </button>
-
             <button
               className="w-full bg-teal-500 text-white px-4 py-3 rounded-lg hover:bg-teal-600 flex items-center space-x-2"
               onClick={() => setShowReportsModal(true)}
@@ -202,7 +209,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Modal: Reportes mensuales */}
+      {/* Modal: Reportes */}
       {showReportsModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl max-w-lg w-full relative">
