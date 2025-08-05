@@ -95,13 +95,13 @@ export default function PatientForm({ patient, onSave, onCancel }) {
   const getBgColorByEtiqueta = (code) => {
     switch (code) {
       case 'NUV':
-        return 'bg-green-50';
-      case 'ANT':
-        return 'bg-blue-50';
-      case 'PPN':
         return 'bg-yellow-50';
+      case 'ANT':
+        return 'bg-purple-200';
+      case 'PPN':
+        return 'bg-red-100';
       case 'JOD':
-        return 'bg-red-50';
+        return 'bg-sky-50';
       default:
         return 'bg-white';
     }

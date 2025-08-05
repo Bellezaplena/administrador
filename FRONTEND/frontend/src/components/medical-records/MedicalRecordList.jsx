@@ -111,7 +111,7 @@ export default function MedicalRecordList() {
         )}
 
         {/* Listado de pacientes */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="overflow-y-auto max-h-[500px] grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           {filteredPatients.map((p) => (
             <div
               key={p.id}

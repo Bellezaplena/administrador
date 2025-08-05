@@ -165,10 +165,10 @@ export default function PatientList() {
                           <span className="text-sm font-medium text-gray-900">{patient.nombres} {patient.apellidos}</span>
                           {patient.etiquetas_pac && (
                             <span className={`w-3 h-3 rounded-full ${
-                              patient.etiquetas_pac === 'NUV' ? 'bg-green-400' :
-                              patient.etiquetas_pac === 'ANT' ? 'bg-blue-400' :
-                              patient.etiquetas_pac === 'PPN' ? 'bg-yellow-400' :
-                              patient.etiquetas_pac === 'JOD' ? 'bg-purple-400' : 'bg-gray-300'
+                              patient.etiquetas_pac === 'NUV' ? 'bg-yellow-400' :
+                              patient.etiquetas_pac === 'ANT' ? 'bg-purple-600' :
+                              patient.etiquetas_pac === 'PPN' ? 'bg-red-600' :
+                              patient.etiquetas_pac === 'JOD' ? 'bg-sky-400' : 'bg-gray-300'
                             }`} title={patient.etiquetas_pac}></span>
                           )}
                         </div>
