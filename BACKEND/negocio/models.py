@@ -62,14 +62,30 @@ class Paciente(models.Model):
         ('CE', 'Cédula de extranjería'),
     ]
 
+    ETIQUETAS = [
+        ('NUV', 'Cliente Nuevo'),
+        ('ANT', 'Cliente Antiguo'),
+        ('PPN', 'Cliente Pago Pendiente'),
+        ('JOD', 'Cliente Jodido'),
+    ]
+
     nombres = models.CharField(max_length=100)
     apellidos = models.CharField(max_length=100)
+
     tipo_documento = models.CharField(
         max_length=2,
         choices=DOCUMENT_TYPES,
         default='CC',
         null=True,
     )
+
+    etiquetas_pac = models.CharField(
+        max_length=3,
+        choices=ETIQUETAS,
+        default='ANT',
+        null=True,
+    )
+
     numero_documento = models.CharField(max_length=10, null=True)
     celular = models.CharField(max_length=20)
     direccion = models.CharField(max_length=100, blank=True, null=True)

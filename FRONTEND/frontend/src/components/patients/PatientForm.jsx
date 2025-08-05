@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 import {
   createPatient,
   updatePatient,
-  getDocumentTypes
+  getDocumentTypes,
+  getLabelPat
 } from '../../lib/api';
 
 export default function PatientForm({ patient, onSave, onCancel }) {
@@ -12,6 +13,7 @@ export default function PatientForm({ patient, onSave, onCancel }) {
     nombres: '',
     apellidos: '',
     tipo_documento: '',
+    etiquetas_pac: '',
     numero_documento: '',
     celular: '',
     direccion: '',
@@ -19,11 +21,12 @@ export default function PatientForm({ patient, onSave, onCancel }) {
     emergencia_nombre: '',
     emergencia_number: '',
     condiciones_medicas: '',
-    alergias: ''
+    alergias: '',
   });
 
   const [errors, setErrors] = useState({});
   const [documentTypes, setDocumentTypes] = useState([]);
+  const [labelPatients, setLabelPatients] = useState([]);
 
   useEffect(() => {
     if (patient) {
@@ -31,6 +34,7 @@ export default function PatientForm({ patient, onSave, onCancel }) {
         nombres: patient.nombres || '',
         apellidos: patient.apellidos || '',
         tipo_documento: patient.tipo_documento || '',
+        etiquetas_pac: patient.etiquetas_pac || '',
         numero_documento: patient.numero_documento || '',
         celular: patient.celular || '',
         direccion: patient.direccion || '',
@@ -38,7 +42,7 @@ export default function PatientForm({ patient, onSave, onCancel }) {
         emergencia_nombre: patient.emergencia_nombre || '',
         emergencia_number: patient.emergencia_number || '',
         condiciones_medicas: patient.condiciones_medicas || '',
-        alergias: patient.alergias || ''
+        alergias: patient.alergias || '',
       });
     }
   }, [patient]);
@@ -47,6 +51,10 @@ export default function PatientForm({ patient, onSave, onCancel }) {
     getDocumentTypes()
       .then(data => setDocumentTypes(data))
       .catch(err => console.error('Error cargando tipos de documento:', err));
+
+    getLabelPat()
+     .then(data => setLabelPatients(data))
+     .catch(err => console.error('Error cargando etiquetas:', err));
   }, []);
 
   const handleChange = (e) => {
@@ -84,6 +92,21 @@ export default function PatientForm({ patient, onSave, onCancel }) {
     }
   };
 
+  const getBgColorByEtiqueta = (code) => {
+    switch (code) {
+      case 'NUV':
+        return 'bg-green-50';
+      case 'ANT':
+        return 'bg-blue-50';
+      case 'PPN':
+        return 'bg-yellow-50';
+      case 'JOD':
+        return 'bg-red-50';
+      default:
+        return 'bg-white';
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -100,7 +123,7 @@ export default function PatientForm({ patient, onSave, onCancel }) {
       </div>
 
       {/* Form */}
-      <div className="bg-white rounded-xl shadow-lg border p-6">
+      <div className={`${getBgColorByEtiqueta(formData.etiquetas_pac)} rounded-xl shadow-lg border p-6`}>
         <form onSubmit={handleSubmit} className="space-y-6">
 
           {/* Información Personal */}
@@ -108,7 +131,6 @@ export default function PatientForm({ patient, onSave, onCancel }) {
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Información Personal</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-              {/* Nombres */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nombres *</label>
                 <input
@@ -121,7 +143,6 @@ export default function PatientForm({ patient, onSave, onCancel }) {
                 {errors.nombres && <p className="text-sm text-red-600">{errors.nombres}</p>}
               </div>
 
-              {/* Apellidos */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Apellidos *</label>
                 <input
@@ -134,7 +155,6 @@ export default function PatientForm({ patient, onSave, onCancel }) {
                 {errors.apellidos && <p className="text-sm text-red-600">{errors.apellidos}</p>}
               </div>
 
-              {/* Tipo de Documento */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Documento</label>
                 <select
@@ -153,7 +173,24 @@ export default function PatientForm({ patient, onSave, onCancel }) {
                 {errors.tipo_documento && <p className="text-sm text-red-600">{errors.tipo_documento}</p>}
               </div>
 
-              {/* Número de Documento */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Etiqueta</label>
+                <select
+                  name="etiquetas_pac"
+                  value={formData.etiquetas_pac}
+                  onChange={handleChange}
+                  className={`w-full px-3 py-2 border rounded-lg ${errors.etiquetas_pac ? 'border-red-500' : 'border-gray-300'}`}
+                >
+                  <option value="">Selecciona una etiqueta</option>
+                  {labelPatients.map((tipo) => (
+                    <option key={tipo.codigo} value={tipo.codigo}>
+                      {tipo.nombre}
+                    </option>
+                  ))}
+                </select>
+                {errors.etiquetas_pac && <p className="text-sm text-red-600">{errors.etiquetas_pac}</p>}
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Número de Documento</label>
                 <input
@@ -166,7 +203,6 @@ export default function PatientForm({ patient, onSave, onCancel }) {
                 {errors.numero_documento && <p className="text-sm text-red-600">{errors.numero_documento}</p>}
               </div>
 
-              {/* Fecha de Nacimiento */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
                 <input
@@ -179,8 +215,6 @@ export default function PatientForm({ patient, onSave, onCancel }) {
                 {errors.fecha_nacimiento && <p className="text-sm text-red-600">{errors.fecha_nacimiento}</p>}
               </div>
 
-
-              {/* Celular */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Celular *</label>
                 <input
@@ -193,7 +227,6 @@ export default function PatientForm({ patient, onSave, onCancel }) {
                 {errors.celular && <p className="text-sm text-red-600">{errors.celular}</p>}
               </div>
 
-              {/* Dirección */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
                 <input

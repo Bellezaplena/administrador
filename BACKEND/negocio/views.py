@@ -92,6 +92,15 @@ def appointment_statuses(request):
         for k, v in dict(Cita.ESTADOS_TYPES). items()
     ])
 
+
+class LabelPatient(APIView): 
+    def get(self, request):
+        return Response([
+            {'codigo': value, 'nombre': label}
+            for value, label in Paciente.ETIQUETAS
+        ])
+    
+
 def create(self, request, *args, **kwargs):
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)

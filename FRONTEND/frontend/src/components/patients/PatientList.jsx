@@ -140,15 +140,15 @@ export default function PatientList() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden flex flex-col">
           {filteredPatients.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500">No se encontraron pacientes</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-y-auto max-h-[500px]">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contacto</th>
@@ -161,7 +161,17 @@ export default function PatientList() {
                   {filteredPatients.map((patient) => (
                     <tr key={patient.id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{patient.nombres} {patient.apellidos}</div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm font-medium text-gray-900">{patient.nombres} {patient.apellidos}</span>
+                          {patient.etiquetas_pac && (
+                            <span className={`w-3 h-3 rounded-full ${
+                              patient.etiquetas_pac === 'NUV' ? 'bg-green-400' :
+                              patient.etiquetas_pac === 'ANT' ? 'bg-blue-400' :
+                              patient.etiquetas_pac === 'PPN' ? 'bg-yellow-400' :
+                              patient.etiquetas_pac === 'JOD' ? 'bg-purple-400' : 'bg-gray-300'
+                            }`} title={patient.etiquetas_pac}></span>
+                          )}
+                        </div>
                         {patient.condiciones_medicas && (
                           <div className="text-sm text-gray-500">Condiciones médicas</div>
                         )}

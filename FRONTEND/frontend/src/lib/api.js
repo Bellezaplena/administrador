@@ -57,3 +57,6 @@ export const getAppointmentStatuses = () => api.get('estados-cita/').then(res =>
 
 //------------------------TIPO DE DOCUMENTOS(COLABORADOR)------------------
 export const getDocumentTypes2 = () => api.get('tipos-documento2/').then(res => res.data);
+
+//------------------------ETIQUETAS PACIENTE------------------
+export const getLabelPat = () => api.get('etiquetas-pac/').then(res => res.data);
